@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="munitFlow" doc:id="b463fb80-c0a2-452e-a5b5-c6c63dc4f780" >
+		<http:listener doc:name="Listener" doc:id="0930e09d-0187-4891-ad58-def76322debd" config-ref="HTTP_Listener_config" path="/munit"/>
+		<salesforce:query doc:name="Query" doc:id="36200e52-342d-40e3-b1a9-be848fcfe715" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query ><![CDATA[SELECT Address__c,Email__c,Gender__c,Id,Name__c,Pho_no__c FROM APICentrics__c]]></salesforce:salesforce-query>
+		</salesforce:query>
+		<set-variable value='#[[{"Munit":"Message"}]]' doc:name="Set Variable" doc:id="8c4e8442-2fa4-432a-9385-516cb37936fe" variableName="Munit"/>
+		<ee:transform doc:name="Transform Message" doc:id="b42658af-cf7b-4db5-8fdc-cb565a54e916" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload ++ vars.Munit]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
