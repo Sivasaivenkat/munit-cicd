@@ -10,16 +10,6 @@
 <username>~~~Client~~~</username>
 <password>${client.id}~?~${client.secret}</password> <!-- these come from the build.yml and your github secrets -->
 </server>
-<server>
-<id>MuleRepository</id>
-<username>anthem.inc.nexus</username>
-<password>EFkljTsG</password>
-</server>
-<server>
-<id>mulesoft-releases</id>
-<username>anthem.inc.nexus</username>
-<password>EFkljTsG</password>
-</server>
 </servers>
  
   <profiles>
